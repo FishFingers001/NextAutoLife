@@ -1,740 +1,654 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Next Auto Life – Serwis Samochodowy Straszyn</title>
-<link href="https://fonts.googleapis.com/css2?
-family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap"
-rel="stylesheet" />
-<style>
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-:root {
---red: #e0191e;
---red2: #b01015;
---black: #111111;
---dark: #1e1e1e;
---panel: #f4f4f4;
---paneld: #ebebeb;
---border: #d8d8d8;
---white: #ﬀﬀﬀ;
---text: #1a1a1a;
---sub: #444444;
---muted: #777777;
---fd: 'Bebas Neue', sans-serif;
---fb: 'Inter', sans-serif;
-}
-html { scroll-behavior:smooth; }
-body { background:var(--white); color:var(--text); font-family:var(--fb); font-size:16px; line-
-height:1.65; overflow-x:hidden; }
-/* ── NAV ── */
-nav {
-position:fixed; top:0; left:0; right:0; z-index:200;
-display:flex; align-items:center; justify-content:space-between;
-padding:14px 5vw;
-background:rgba(17,17,17,.96);
-backdrop-filter:blur(14px);
-border-bottom:1px solid #2a2a2a;
-}
-.nav-logo { font-family:var(--fd); font-size:1.5rem; letter-spacing:.08em; color:#f0f0f0; text-
-decoration:none; }
-.nav-logo span { color:var(--red); }
-.nav-right { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.nav-links { display:flex; gap:22px; }
-.nav-links a { color:#aaa; text-decoration:none; font-size:.78rem; letter-spacing:.1em; text-
-transform:uppercase; transition:color .2s; }
-.nav-links a:hover { color:#ﬀf; }
-.lang-switcher { display:flex; gap:4px; }
-.lang-btn {
-background:transparent; border:1px solid #3a3a3a; color:#aaa;
-font-family:var(--fb); font-size:.72rem; font-weight:700;
-letter-spacing:.06em; padding:5px 9px; border-radius:4px;
-cursor:pointer; transition:all .2s;
-}
-.lang-btn:hover { border-color:var(--red); color:#ﬀf; }
-.lang-btn.active { background:var(--red); border-color:var(--red); color:#ﬀf; }
-.nav-cta {
-background:var(--red); color:#ﬀf; padding:8px 18px; border-radius:4px;
-font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.04em;
-transition:background .2s; white-space:nowrap;
-}
-.nav-cta:hover { background:var(--red2); }
-/* ── HERO (dark) ── */
-.hero {
-min-height:100vh; background:var(--black);
-display:flex; flex-direction:column; justify-content:flex-end;
-padding:0 5vw 80px; position:relative; overflow:hidden;
-}
-.hero-bg {
-position:absolute; inset:0;
-background: linear-gradient(135deg,#1f0000 0%,#111 50%,#001a00 100%);
-}
-.hero-bg::before {
-content:''; position:absolute; inset:0;
-background-image:
-linear-gradient(rgba(224,25,30,.07) 1px,transparent 1px),
-linear-gradient(90deg,rgba(224,25,30,.07) 1px,transparent 1px);
-background-size:60px 60px;
-animation:gridMove 22s linear infinite;
-}
-@keyframes gridMove { from{background-position:0 0} to{background-position:60px 60px} }
-.hero-badge {
-position:relative; display:inline-flex; align-items:center; gap:8px;
-background:rgba(224,25,30,.13); border:1px solid rgba(224,25,30,.4);
-border-radius:100px; padding:6px 16px;
-font-size:.73rem; letter-spacing:.14em; text-transform:uppercase;
-color:var(--red); margin-bottom:22px; width:fit-content;
-}
-.hero-badge::before {
-content:''; width:7px; height:7px; background:var(--red); border-radius:50%;
-animation:blink 1.8s ease-in-out infinite;
-}
-@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%
-{opacity:.3;transform:scale(1.5)} }
-.hero-title {
-position:relative; font-family:var(--fd);
-font-size:clamp(4rem,12vw,10rem); line-height:.9;
-letter-spacing:.02em; color:#f0f0f0; margin-bottom:26px;
-}
-.hero-title .red { color:var(--red); }
-.hero-sub { position:relative; max-width:520px; color:#bbb; font-size:1rem; margin-
-bottom:38px; }
-.hero-actions { position:relative; display:flex; flex-wrap:wrap; gap:12px; }
-.btn {
-display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:4px;
-font-size:.88rem; font-weight:700; text-decoration:none; cursor:pointer; border:none;
-transition:transform .15s, background .2s, opacity .15s;
-}
-.btn:hover { transform:translateY(-2px); }
-.btn-primary { background:var(--red); color:#ﬀf; }
-.btn-primary:hover { background:var(--red2); }
-.btn-ghost { background:transparent; color:#f0f0f0; border:1px solid #3a3a3a; }
-.btn-ghost:hover { border-color:#888; }
-.hero-stats {
-position:absolute; right:5vw; bottom:80px;
-display:flex; flex-direction:column; gap:22px; text-align:right;
-}
-.stat-num { font-family:var(--fd); font-size:2.8rem; color:var(--red); line-height:1; }
-.stat-lbl { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:#666; }
-/* ── LIGHT SECTIONS ── */
-section { padding:90px 5vw; background:var(--white); }
-section.alt { background:var(--panel); }
-.eyebrow { font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--red);
-margin-bottom:10px; }
-.sec-title {
-font-family:var(--fd); font-size:clamp(2.2rem,5vw,3.8rem);
-line-height:1; letter-spacing:.03em; color:var(--black); margin-bottom:14px;
-}
-.sec-desc { max-width:600px; color:var(--sub); font-size:.95rem; margin-bottom:50px; }
-/* ── SERVICE CARDS ── */
-.services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
-gap:16px; }
-.service-card {
-background:var(--white); padding:32px 28px;
-border:1px solid var(--border); border-radius:6px;
-position:relative; overflow:hidden;
-transition:border-color .25s, box-shadow .25s;
-}
-.service-card::before {
-content:''; position:absolute; top:0; left:0; right:0; height:3px;
-background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .3s;
-}
-.service-card:hover { border-color:#bbb; box-shadow:0 4px 24px rgba(0,0,0,.08); }
-.service-card:hover::before { transform:scaleX(1); }
-.service-icon { width:44px; height:44px; margin-bottom:16px; color:var(--red); }
-.service-card h3 { font-family:var(--fd); font-size:1.4rem; letter-spacing:.04em; color:var(--
-black); margin-bottom:10px; }
-.service-card p { color:var(--sub); font-size:.87rem; line-height:1.7; }
-/* ── WHY SECTION (dark) ── */
-.why-section { background:var(--dark) !important; }
-.why-section .sec-title { color:#f0f0f0; }
-.why-section .sec-desc { color:#aaa; }
-.why-section .eyebrow { color:var(--red); }
-.why-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
-.why-visual {
-position:relative; height:400px; background:#252525;
-border:1px solid #333; border-radius:8px;
-display:flex; align-items:center; justify-content:center; overflow:hidden;
-}
-.why-car-svg { width:82%; }
-.why-accent {
-position:absolute; bottom:-40px; right:-40px; width:220px; height:220px;
-background:radial-gradient(circle,rgba(224,25,30,.18) 0%,transparent 70%);
-}
-.why-list { display:flex; flex-direction:column; gap:26px; }
-.why-item { display:flex; gap:18px; }
-.why-num { font-family:var(--fd); font-size:3rem; color:#333; line-height:1; flex-shrink:0;
-width:50px; transition:color .2s; }
-.why-item:hover .why-num { color:var(--red); }
-.why-item-title { font-weight:700; color:#f0f0f0; margin-bottom:4px; font-size:.95rem; }
-.why-item-desc { font-size:.85rem; color:#aaa; line-height:1.65; }
-/* ── HOURS (dark) ── */
-.hours-band {
-background:var(--black); border-top:1px solid #2a2a2a; border-bottom:1px solid #2a2a2a;
-padding:50px 5vw;
-}
-.hours-inner { display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-
-content:space-between; max-width:960px; margin:0 auto; }
-.hours-title { font-family:var(--fd); font-size:1.7rem; letter-spacing:.05em; color:#f0f0f0; }
-.hours-pills { display:flex; flex-wrap:wrap; gap:10px; }
-.hours-pill {
-display:flex; align-items:center; gap:9px;
-background:rgba(224,25,30,.12); border:1px solid rgba(224,25,30,.3);
-border-radius:100px; padding:9px 18px; font-size:.86rem; color:#f0f0f0; font-weight:500;
-}
-.hours-dot { width:7px; height:7px; background:var(--red); border-radius:50%; flex-shrink:0; }
-.hours-closed { font-size:.82rem; color:#666; }
-/* ── CONTACT ── */
-.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
-.contact-card { background:var(--panel); border:1px solid var(--border); border-radius:6px;
-padding:36px; }
-.contact-card h3 { font-family:var(--fd); font-size:1.5rem; letter-spacing:.05em; color:var(--
-black); margin-bottom:26px; }
-.ci { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
-.ci-icon {
-width:38px; height:38px; flex-shrink:0;
-background:rgba(224,25,30,.1); border:1px solid rgba(224,25,30,.25);
-border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--red);
-}
-.ci-label { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--
-muted); margin-bottom:3px; }
-.ci-val { font-size:.97rem; font-weight:600; color:var(--black); }
-.ci-val a { color:var(--black); text-decoration:none; transition:color .2s; }
-.ci-val a:hover { color:var(--red); }
-.ci-val-sm { font-size:.9rem; color:var(--sub); font-weight:500; }
-/* Map placeholder instead of iframe */
-.map-box {
-border-radius:6px; overflow:hidden; border:1px solid var(--border);
-min-height:380px; background:var(--panel);
-display:flex; flex-direction:column; align-items:center; justify-content:center;
-gap:16px; text-align:center; padding:40px;
-}
-.map-box svg { color:var(--red); opacity:.7; }
-.map-box-title { font-family:var(--fd); font-size:1.5rem; color:var(--black); letter-
-spacing:.04em; }
-.map-box-addr { color:var(--sub); font-size:.9rem; }
-/* ── FOOTER ── */
-footer {
-padding:32px 5vw; background:var(--black); border-top:2px solid var(--red);
-display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;
-}
-.footer-logo { font-family:var(--fd); font-size:1.3rem; letter-spacing:.06em; color:#f0f0f0; }
-.footer-logo span { color:var(--red); }
-.footer-copy { font-size:.78rem; color:#666; }
-/* ── RESPONSIVE ── */
-@media(max-width:900px) {
-.nav-links { display:none; }
-.why-grid, .contact-grid { grid-template-columns:1fr; }
-.why-visual { height:220px; }
-.hero-stats { display:none; }
-}
-@media(max-width:540px) {
-.lang-btn { padding:4px 7px; font-size:.66rem; }
-.nav-cta { padding:7px 12px; font-size:.76rem; }
-.hours-inner { flex-direction:column; align-items:flex-start; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Next Auto Life – Serwis Samochodowy Straszyn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+    :root {
+      --red:    #e0191e;
+      --red2:   #b01015;
+      --black:  #111111;
+      --dark:   #1e1e1e;
+      --panel:  #f4f4f4;
+      --paneld: #ebebeb;
+      --border: #d8d8d8;
+      --white:  #ffffff;
+      --text:   #1a1a1a;
+      --sub:    #444444;
+      --muted:  #777777;
+      --fd: 'Bebas Neue', sans-serif;
+      --fb: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior:smooth; scroll-padding-top:72px; }
+    [id] { scroll-margin-top:72px; }
+    body { background:var(--white); color:var(--text); font-family:var(--fb); font-size:16px; line-height:1.65; overflow-x:hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 5vw;
+      background:rgba(17,17,17,.96);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid #2a2a2a;
+    }
+    .nav-logo { font-family:var(--fd); font-size:1.5rem; letter-spacing:.08em; color:#f0f0f0; text-decoration:none; }
+    .nav-logo span { color:var(--red); }
+    .nav-right { display:flex; align-items:center; gap:14px; }
+    .nav-top-actions { display:flex; align-items:center; gap:10px; }
+    .nav-menu { display:flex; align-items:center; gap:22px; }
+    .nav-menu-footer { display:flex; align-items:center; }
+    .nav-links { display:flex; gap:22px; }
+    .nav-links a { color:#aaa; text-decoration:none; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; transition:color .2s; }
+    .nav-links a:hover { color:#fff; }
+    .lang-switcher { display:flex; gap:4px; }
+    .lang-btn {
+      background:transparent; border:1px solid #3a3a3a; color:#aaa;
+      font-family:var(--fb); font-size:.72rem; font-weight:700;
+      letter-spacing:.06em; padding:5px 9px; border-radius:4px;
+      cursor:pointer; transition:all .2s;
+    }
+    .lang-btn:hover { border-color:var(--red); color:#fff; }
+    .lang-btn.active { background:var(--red); border-color:var(--red); color:#fff; }
+    .nav-cta {
+      background:var(--red); color:#fff; padding:8px 18px; border-radius:4px;
+      font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.04em;
+      transition:background .2s; white-space:nowrap;
+    }
+    .nav-cta:hover { background:var(--red2); }
+    .nav-cta--menu { display:none; }
+    .nav-toggle {
+      display:none; align-items:center; justify-content:center;
+      background:transparent; border:1px solid #3a3a3a; color:#f0f0f0;
+      width:36px; height:36px; border-radius:4px; cursor:pointer; padding:0;
+      transition:border-color .2s, color .2s;
+    }
+    .nav-toggle:hover { border-color:var(--red); color:#fff; }
+
+    /* ── HERO (dark) ── */
+    .hero {
+      min-height:100vh; background:var(--black);
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding:0 5vw 80px; position:relative; overflow:hidden;
+    }
+    .hero-bg {
+      position:absolute; inset:0;
+      background: linear-gradient(135deg,#1f0000 0%,#111 50%,#001a00 100%);
+    }
+    .hero-bg::before {
+      content:''; position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(224,25,30,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(224,25,30,.07) 1px,transparent 1px);
+      background-size:60px 60px;
+      animation:gridMove 22s linear infinite;
+    }
+    @keyframes gridMove { from{background-position:0 0} to{background-position:60px 60px} }
+
+    .hero-badge {
+      position:relative; display:inline-flex; align-items:center; gap:8px;
+      background:rgba(224,25,30,.13); border:1px solid rgba(224,25,30,.4);
+      border-radius:100px; padding:6px 16px;
+      font-size:.73rem; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--red); margin-bottom:22px; width:fit-content;
+    }
+    .hero-badge::before {
+      content:''; width:7px; height:7px; background:var(--red); border-radius:50%;
+      animation:blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(1.5)} }
+
+    .hero-title {
+      position:relative; font-family:var(--fd);
+      font-size:clamp(4rem,12vw,10rem); line-height:.9;
+      letter-spacing:.02em; color:#f0f0f0; margin-bottom:26px;
+    }
+    .hero-title .red { color:var(--red); }
+    .hero-sub { position:relative; max-width:520px; color:#bbb; font-size:1rem; margin-bottom:38px; }
+    .hero-actions { position:relative; display:flex; flex-wrap:wrap; gap:12px; }
+
+    .btn {
+      display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:4px;
+      font-size:.88rem; font-weight:700; text-decoration:none; cursor:pointer; border:none;
+      transition:transform .15s, background .2s, opacity .15s;
+    }
+    .btn:hover { transform:translateY(-2px); }
+    .btn-primary { background:var(--red); color:#fff; }
+    .btn-primary:hover { background:var(--red2); }
+    .btn-ghost { background:transparent; color:#f0f0f0; border:1px solid #3a3a3a; }
+    .btn-ghost:hover { border-color:#888; }
+
+    .hero-stats {
+      position:absolute; right:5vw; bottom:80px;
+      display:flex; flex-direction:column; gap:22px; text-align:right;
+    }
+    .stat-num { font-family:var(--fd); font-size:2.8rem; color:var(--red); line-height:1; }
+    .stat-lbl { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:#666; }
+
+    /* ── LIGHT SECTIONS ── */
+    section { padding:90px 5vw; background:var(--white); }
+    section.alt { background:var(--panel); }
+
+    .eyebrow { font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--red); margin-bottom:10px; }
+    .sec-title {
+      font-family:var(--fd); font-size:clamp(2.2rem,5vw,3.8rem);
+      line-height:1; letter-spacing:.03em; color:var(--black); margin-bottom:14px;
+    }
+    .sec-desc { max-width:600px; color:var(--sub); font-size:.95rem; margin-bottom:50px; }
+
+    /* ── SERVICE CARDS ── */
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:16px; }
+    .service-card {
+      background:var(--white); padding:32px 28px;
+      border:1px solid var(--border); border-radius:6px;
+      position:relative; overflow:hidden;
+      transition:border-color .25s, box-shadow .25s;
+    }
+    .service-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .3s;
+    }
+    .service-card:hover { border-color:#bbb; box-shadow:0 4px 24px rgba(0,0,0,.08); }
+    .service-card:hover::before { transform:scaleX(1); }
+    .service-icon { width:44px; height:44px; margin-bottom:16px; color:var(--red); }
+    .service-card h3 { font-family:var(--fd); font-size:1.4rem; letter-spacing:.04em; color:var(--black); margin-bottom:10px; }
+    .service-card p { color:var(--sub); font-size:.87rem; line-height:1.7; }
+
+    /* ── WHY SECTION (dark) ── */
+    .why-section { background:var(--dark) !important; }
+    .why-section .sec-title { color:#f0f0f0; }
+    .why-section .sec-desc  { color:#aaa; }
+    .why-section .eyebrow   { color:var(--red); }
+
+    .why-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+    .why-visual {
+      position:relative; height:400px; background:#252525;
+      border:1px solid #333; border-radius:8px;
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+    }
+    .why-car-svg { width:82%; }
+    .why-accent {
+      position:absolute; bottom:-40px; right:-40px; width:220px; height:220px;
+      background:radial-gradient(circle,rgba(224,25,30,.18) 0%,transparent 70%);
+    }
+    .why-list { display:flex; flex-direction:column; gap:26px; }
+    .why-item { display:flex; gap:18px; }
+    .why-num { font-family:var(--fd); font-size:3rem; color:#333; line-height:1; flex-shrink:0; width:50px; transition:color .2s; }
+    .why-item:hover .why-num { color:var(--red); }
+    .why-item-title { font-weight:700; color:#f0f0f0; margin-bottom:4px; font-size:.95rem; }
+    .why-item-desc  { font-size:.85rem; color:#aaa; line-height:1.65; }
+
+    /* ── HOURS (dark) ── */
+    .hours-band {
+      background:var(--black); border-top:1px solid #2a2a2a; border-bottom:1px solid #2a2a2a;
+      padding:50px 5vw;
+    }
+    .hours-inner { display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; max-width:960px; margin:0 auto; }
+    .hours-title { font-family:var(--fd); font-size:1.7rem; letter-spacing:.05em; color:#f0f0f0; }
+    .hours-pills { display:flex; flex-wrap:wrap; gap:10px; }
+    .hours-pill {
+      display:flex; align-items:center; gap:9px;
+      background:rgba(224,25,30,.12); border:1px solid rgba(224,25,30,.3);
+      border-radius:100px; padding:9px 18px; font-size:.86rem; color:#f0f0f0; font-weight:500;
+    }
+    .hours-dot { width:7px; height:7px; background:var(--red); border-radius:50%; flex-shrink:0; }
+    .hours-closed { font-size:.82rem; color:#666; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+    .contact-card { background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:36px; }
+    .contact-card h3 { font-family:var(--fd); font-size:1.5rem; letter-spacing:.05em; color:var(--black); margin-bottom:26px; }
+    .ci { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
+    .ci-icon {
+      width:38px; height:38px; flex-shrink:0;
+      background:rgba(224,25,30,.1); border:1px solid rgba(224,25,30,.25);
+      border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--red);
+    }
+    .ci-label { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+    .ci-val { font-size:.97rem; font-weight:600; color:var(--black); }
+    .ci-val a { color:var(--black); text-decoration:none; transition:color .2s; }
+    .ci-val a:hover { color:var(--red); }
+    .ci-val-sm { font-size:.9rem; color:var(--sub); font-weight:500; }
+
+    /* Map placeholder instead of iframe */
+    .map-box {
+      border-radius:6px; overflow:hidden; border:1px solid var(--border);
+      min-height:380px; background:var(--panel);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:16px; text-align:center; padding:40px;
+    }
+    .map-box svg { color:var(--red); opacity:.7; }
+    .map-box-title { font-family:var(--fd); font-size:1.5rem; color:var(--black); letter-spacing:.04em; }
+    .map-box-addr { color:var(--sub); font-size:.9rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding:32px 5vw; background:var(--black); border-top:2px solid var(--red);
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .footer-logo { font-family:var(--fd); font-size:1.3rem; letter-spacing:.06em; color:#f0f0f0; }
+    .footer-logo span { color:var(--red); }
+    .footer-copy { font-size:.78rem; color:#666; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      nav { flex-wrap:wrap; align-items:center; gap:10px; }
+      .nav-logo { flex:1; min-width:0; }
+      .nav-right { display:contents; }
+      .nav-top-actions { display:flex; align-items:center; gap:10px; margin-left:auto; }
+      .nav-toggle { display:flex; flex-shrink:0; }
+      .nav-menu {
+        display:none; width:100%; order:10;
+        flex-direction:column; gap:0;
+        padding-top:12px; border-top:1px solid #2a2a2a;
+      }
+      nav.open .nav-menu { display:flex; }
+      .nav-links {
+        flex-direction:column; gap:16px;
+        padding-bottom:12px;
+      }
+      .nav-menu-footer {
+        display:flex; align-items:center; justify-content:flex-end; gap:10px;
+        padding-top:12px; border-top:1px solid #2a2a2a;
+      }
+      .nav-cta--menu { display:none; }
+      nav.open .nav-top-actions .nav-cta { display:none; }
+      nav.open .nav-cta--menu { display:inline-flex; }
+      .why-grid, .contact-grid { grid-template-columns:1fr; }
+      .why-visual { height:220px; }
+      .hero-stats { display:none; }
+    }
+    @media(max-width:540px) {
+      .lang-btn { padding:4px 7px; font-size:.66rem; }
+      .nav-cta { padding:7px 12px; font-size:.76rem; }
+      .hours-inner { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
 </head>
 <body>
+
 <!-- NAV -->
 <nav>
-<a class="nav-logo" href="#"><span>NEXT</span> AUTO LIFE</a>
-<div class="nav-right">
-<div class="nav-links">
-<a href="#uslugi" data-i18n="nav_services">Usługi</a>
-<a href="#dlaczego" data-i18n="nav_about">O nas</a>
-<a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
-</div>
-<div class="lang-switcher">
-<button class="lang-btn active" onclick="setLang('pl')">PL</button>
-<button class="lang-btn" onclick="setLang('en')">EN</button>
-<button class="lang-btn" onclick="setLang('ru')">RU</button>
-<button class="lang-btn" onclick="setLang('uk')">UK</button>
-</div>
-</div>
+  <a class="nav-logo" href="#"><span>NEXT</span> AUTO LIFE</a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <div class="nav-links">
+        <a href="#uslugi" data-i18n="nav_services">Usługi</a>
+        <a href="#dlaczego" data-i18n="nav_about">O nas</a>
+        <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
+      </div>
+      <div class="nav-menu-footer">
+        <a href="tel:571941266" class="nav-cta nav-cta--menu">571 941 266</a>
+        <div class="lang-switcher">
+          <button type="button" class="lang-btn active" aria-pressed="true" onclick="setLang('pl')">PL</button>
+          <button type="button" class="lang-btn" aria-pressed="false" onclick="setLang('en')">EN</button>
+          <button type="button" class="lang-btn" aria-pressed="false" onclick="setLang('ru')">RU</button>
+          <button type="button" class="lang-btn" aria-pressed="false" onclick="setLang('uk')">UK</button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-top-actions">
+      <a href="tel:571941266" class="nav-cta">571 941 266</a>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 </nav>
-<a href="tel:571941266" class="nav-cta">571 941 266</a>
+
 <!-- HERO -->
 <div class="hero">
-<div class="hero-bg"></div>
-<div class="hero-badge" data-i18n="hero_badge">Auto Repair Shop · Straszyn k. Gdańska</
-div>
-<h1 class="hero-title">NEXT<br><span class="red">AUTO</span><br>LIFE</h1>
-<p class="hero-sub" data-i18n="hero_sub">Profesjonalny serwis samochodowy pod
-Gdańskiem. Diagnostyka komputerowa, mechanika pojazdowa, wulkanizacja i szybkie usługi
-— wszystko pod jednym dachem.</p>
-<div class="hero-actions">
-<a href="tel:571941266" class="btn btn-primary">
-<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5
-19.5 0 013.07 10.8 19.79 19.79 0 01.12 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361
-1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339
-1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-<span data-i18n="hero_call">Zadzwoń teraz</span>
-</a>
-<a href="#kontakt" class="btn btn-ghost" data-i18n="hero_map">Znajdź nas na mapie</a>
+  <div class="hero-bg"></div>
+  <div class="hero-badge" data-i18n="hero_badge">Auto Repair Shop · Straszyn k. Gdańska</div>
+  <h1 class="hero-title">NEXT<br><span class="red">AUTO</span><br>LIFE</h1>
+  <p class="hero-sub" data-i18n="hero_sub">Profesjonalny serwis samochodowy pod Gdańskiem. Diagnostyka komputerowa, mechanika pojazdowa, wulkanizacja i szybkie usługi — wszystko pod jednym dachem.</p>
+  <div class="hero-actions">
+    <a href="tel:571941266" class="btn btn-primary">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.12 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      <span data-i18n="hero_call">Zadzwoń teraz</span>
+    </a>
+    <a href="#kontakt" class="btn btn-ghost" data-i18n="hero_map">Znajdź nas na mapie</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">5.0</div><div class="stat-lbl" data-i18n="stat_rating">Ocena Google</div></div>
+    <div><div class="stat-num">96</div><div class="stat-lbl" data-i18n="stat_interactions">Interakcji klientów</div></div>
+  </div>
 </div>
-<div class="hero-stats">
-<div><div class="stat-num">5.0</div><div class="stat-lbl" data-i18n="stat_rating">Ocena
-Google</div></div>
-<div><div class="stat-num">96</div><div class="stat-lbl" data-
-i18n="stat_interactions">Interakcji klientów</div></div>
-</div>
-</div>
+
 <!-- SERVICES -->
 <section id="uslugi">
-<div class="eyebrow" data-i18n="srv_eyebrow">Co robimy</div>
-<h2 class="sec-title" data-i18n="srv_title">NASZE USŁUGI</h2>
-<p class="sec-desc" data-i18n="srv_desc">Oferujemy pełen zakres usług motoryzacyjnych
-— od szybkiej diagnostyki po kompleksowe naprawy. Każde zlecenie realizujemy rzetelnie,
-używając sprawdzonych części i nowoczesnego sprzętu.</p>
-<div class="services-grid">
-<div class="service-card">
-<svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/
-><polyline points="9 8 12 11 15 8"/></svg>
-<h3 data-i18n="s1_title">Diagnostyka komputerowa</h3>
-<p data-i18n="s1_desc">Używamy profesjonalnych urządzeń diagnostycznych do odczytu
-kodów błędów ze wszystkich układów pojazdu — silnik, ABS, ESP, poduszki powietrzne i inne.
-Precyzyjna diagnostyka to pierwszy krok do skutecznej naprawy — oszczędzasz czas i
-pieniądze.</p>
-</div>
-<div class="service-card">
-<svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-<h3 data-i18n="s2_title">Mechanika pojazdowa</h3>
-<p data-i18n="s2_desc">Kompleksowy serwis: wymiana oleju i filtrów, naprawa hamulców,
-zawieszenia, układu kierowniczego i przeniesienia napędu. Wymieniamy rozrządy, sprzęgła,
-amortyzatory. Używamy markowych części dopasowanych do konkretnego modelu — solidnie
-i z gwarancją.</p>
-</div>
-<div class="service-card">
-<svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12
-3v3M12 18v3M3 12h3M18 12h3"/></svg>
-<h3 data-i18n="s3_title">Wulkanizacja</h3>
-<p data-i18n="s3_desc">Montaż i demontaż opon letnich i zimowych, wyważanie kół,
-prostowanie obręczy, naprawa przebić oraz ocena stanu ogumienia. Doradzamy w doborze
-opon. Bezpieczeństwo na drodze zaczyna się od właściwie dobranych opon.</p>
-</div>
-<div class="service-card">
-<svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-<h3 data-i18n="s4_title">Szybkie usługi</h3>
-<p data-i18n="s4_desc">Wymiana żarówek, wycieraczek, płynów, akumulatora czy
-kontrola ciśnienia opon — robimy to szybko, bez zapisów i bez czekania. Wpadnij — zajmiemy
-się Twoim autem od ręki tego samego dnia.</p>
-</div>
-<div class="service-card">
-<svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-<h3 data-i18n="s5_title">Przegląd techniczny</h3>
-<p data-i18n="s5_desc">Przed badaniem technicznym sprawdzimy Twój samochód od A
-do Z — oświetlenie, hamulce, emisja spalin, geometria kół, stan nadwozia. Przygotujemy auto
-tak, by bez problemu zdało przegląd i bezpiecznie służyło przez kolejne lata.</p>
-</div>
-<div class="service-card">
-<svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94
-7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-<h3 data-i18n="s6_title">Naprawy elektryczne</h3>
-<p data-i18n="s6_desc">Naprawa instalacji elektrycznej, wymiana czujników, alternatorów,
-rozruszników oraz diagnoza problemów ze sterownikami ECU. Usterki elektryczne bywają
-trudne do zlokalizowania — ale mamy doświadczenie i sprzęt, by sobie z nimi poradzić.</p>
-</div>
-</div>
+  <div class="eyebrow" data-i18n="srv_eyebrow">Co robimy</div>
+  <h2 class="sec-title" data-i18n="srv_title">NASZE USŁUGI</h2>
+  <p class="sec-desc" data-i18n="srv_desc">Oferujemy pełen zakres usług motoryzacyjnych — od szybkiej diagnostyki po kompleksowe naprawy. Każde zlecenie realizujemy rzetelnie, używając sprawdzonych części i nowoczesnego sprzętu.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><polyline points="9 8 12 11 15 8"/></svg>
+      <h3 data-i18n="s1_title">Diagnostyka komputerowa</h3>
+      <p data-i18n="s1_desc">Używamy profesjonalnych urządzeń diagnostycznych do odczytu kodów błędów ze wszystkich układów pojazdu — silnik, ABS, ESP, poduszki powietrzne i inne. Precyzyjna diagnostyka to pierwszy krok do skutecznej naprawy — oszczędzasz czas i pieniądze.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      <h3 data-i18n="s2_title">Mechanika pojazdowa</h3>
+      <p data-i18n="s2_desc">Kompleksowy serwis: wymiana oleju i filtrów, naprawa hamulców, zawieszenia, układu kierowniczego i przeniesienia napędu. Wymieniamy rozrządy, sprzęgła, amortyzatory. Używamy markowych części dopasowanych do konkretnego modelu — solidnie i z gwarancją.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
+      <h3 data-i18n="s3_title">Wulkanizacja</h3>
+      <p data-i18n="s3_desc">Montaż i demontaż opon letnich i zimowych, wyważanie kół, prostowanie obręczy, naprawa przebić oraz ocena stanu ogumienia. Doradzamy w doborze opon. Bezpieczeństwo na drodze zaczyna się od właściwie dobranych opon.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <h3 data-i18n="s4_title">Szybkie usługi</h3>
+      <p data-i18n="s4_desc">Wymiana żarówek, wycieraczek, płynów, akumulatora czy kontrola ciśnienia opon — robimy to szybko, bez zapisów i bez czekania. Wpadnij — zajmiemy się Twoim autem od ręki tego samego dnia.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <h3 data-i18n="s5_title">Przegląd techniczny</h3>
+      <p data-i18n="s5_desc">Przed badaniem technicznym sprawdzimy Twój samochód od A do Z — oświetlenie, hamulce, emisja spalin, geometria kół, stan nadwozia. Przygotujemy auto tak, by bez problemu zdało przegląd i bezpiecznie służyło przez kolejne lata.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      <h3 data-i18n="s6_title">Naprawy elektryczne</h3>
+      <p data-i18n="s6_desc">Naprawa instalacji elektrycznej, wymiana czujników, alternatorów, rozruszników oraz diagnoza problemów ze sterownikami ECU. Usterki elektryczne bywają trudne do zlokalizowania — ale mamy doświadczenie i sprzęt, by sobie z nimi poradzić.</p>
+    </div>
+  </div>
 </section>
+
 <!-- WHY (dark) -->
 <section id="dlaczego" class="why-section">
-<div class="eyebrow" data-i18n="why_eyebrow">Dlaczego my</div>
-<h2 class="sec-title" data-i18n="why_title">JAKOŚĆ<br>KTÓRĄ CZUJESZ</h2>
-<p class="sec-desc" data-i18n="why_desc">Jesteśmy lokalnym serwisem z misją —
-oferować najwyższą jakość usług w przystępnej cenie. Zaufało nam już wielu kierowców z
-Straszyna, Pruszcza Gdańskiego i okolic.</p>
-<div class="why-grid">
-<div class="why-visual">
-<svg class="why-car-svg" viewBox="0 0 480 200" fill="none">
-<path d="M60 140 H420 Q440 140 440 120 V100 Q440 80 420 80 L360 60 Q320 40 240
-38 Q160 40 120 60 L60 80 Q40 80 40 100 V120 Q40 140 60 140Z" stroke="#e0191e" stroke-
-width="2" fill="rgba(224,25,30,.05)"/>
-<path d="M160 82 L190 55 Q220 42 270 42 Q310 44 340 55 L360 82Z" stroke="#444"
-stroke-width="1.5" fill="rgba(255,255,255,.04)"/>
-<circle cx="130" cy="140" r="28" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-<circle cx="130" cy="140" r="14" stroke="#e0191e" stroke-width="1.5" fill="#1a1a1a"/>
-<circle cx="350" cy="140" r="28" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-<circle cx="350" cy="140" r="14" stroke="#e0191e" stroke-width="1.5" fill="#1a1a1a"/>
-<rect x="408" y="90" width="22" height="10" rx="3" fill="rgba(224,25,30,.6)"/>
-<rect x="50" y="90" width="22" height="10" rx="3" fill="rgba(224,25,30,.3)"/>
-</svg>
-<div class="why-accent"></div>
-</div>
-<div class="why-list">
-<div class="why-item">
-<div class="why-num">01</div>
-<div>
-<div class="why-item-title" data-i18n="w1_t">Ocena 5.0 ★ w Google</div>
-<div class="why-item-desc" data-i18n="w1_d">Każda opinia to dla nas zobowiązanie.
-Dążymy do tego, by każdy klient wyszedł od nas zadowolony — z naprawy, obsługi i ceny.
-Nasza reputacja budowana jest jedną wizytą na raz.</div>
-</div>
-</div>
-<div class="why-item">
-<div class="why-num">02</div>
-<div>
-<div class="why-item-title" data-i18n="w2_t">Transparentna wycena</div>
-<div class="why-item-desc" data-i18n="w2_d">Przed każdą naprawą omawiamy zakres
-prac i koszt. Nie zaczynamy bez Twojej zgody. Żadnych niespodzianek na końcu — cena jest
-taka, jaka była ustalona.</div>
-</div>
-</div>
-<div class="why-item">
-<div class="why-num">03</div>
-<div>
-<div class="why-item-title" data-i18n="w3_t">Szybka realizacja</div>
-<div class="why-item-desc" data-i18n="w3_d">Wiemy, że samochód to narzędzie pracy
-i codziennego życia. Staramy się oddawać auta tego samego dnia lub jak najszybciej — bez
-zbędnego przeciągania terminów.</div>
-</div>
-</div>
-<div class="why-item">
-<div class="why-num">04</div>
-<div>
-<div class="why-item-title" data-i18n="w4_t">Łatwy kontakt — WhatsApp</div>
-<div class="why-item-desc" data-i18n="w4_d">Masz pytanie o naprawę lub chcesz się
-umówić? Napisz na WhatsApp — to najszybszy sposób kontaktu. Odpowiadamy sprawnie i
-bez zbędnych formalności.</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="eyebrow" data-i18n="why_eyebrow">Dlaczego my</div>
+  <h2 class="sec-title" data-i18n="why_title">JAKOŚĆ<br>KTÓRĄ CZUJESZ</h2>
+  <p class="sec-desc" data-i18n="why_desc">Jesteśmy lokalnym serwisem z misją — oferować najwyższą jakość usług w przystępnej cenie. Zaufało nam już wielu kierowców z Straszyna, Pruszcza Gdańskiego i okolic.</p>
+  <div class="why-grid">
+    <div class="why-visual">
+      <svg class="why-car-svg" viewBox="0 0 480 200" fill="none" aria-hidden="true">
+        <path d="M60 140 H420 Q440 140 440 120 V100 Q440 80 420 80 L360 60 Q320 40 240 38 Q160 40 120 60 L60 80 Q40 80 40 100 V120 Q40 140 60 140Z" stroke="#e0191e" stroke-width="2" fill="rgba(224,25,30,.05)"/>
+        <path d="M160 82 L190 55 Q220 42 270 42 Q310 44 340 55 L360 82Z" stroke="#444" stroke-width="1.5" fill="rgba(255,255,255,.04)"/>
+        <circle cx="130" cy="140" r="28" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
+        <circle cx="130" cy="140" r="14" stroke="#e0191e" stroke-width="1.5" fill="#1a1a1a"/>
+        <circle cx="350" cy="140" r="28" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
+        <circle cx="350" cy="140" r="14" stroke="#e0191e" stroke-width="1.5" fill="#1a1a1a"/>
+        <rect x="408" y="90" width="22" height="10" rx="3" fill="rgba(224,25,30,.6)"/>
+        <rect x="50" y="90" width="22" height="10" rx="3" fill="rgba(224,25,30,.3)"/>
+      </svg>
+      <div class="why-accent"></div>
+    </div>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div>
+          <div class="why-item-title" data-i18n="w1_t">Ocena 5.0 ★ w Google</div>
+          <div class="why-item-desc" data-i18n="w1_d">Każda opinia to dla nas zobowiązanie. Dążymy do tego, by każdy klient wyszedł od nas zadowolony — z naprawy, obsługi i ceny. Nasza reputacja budowana jest jedną wizytą na raz.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div>
+          <div class="why-item-title" data-i18n="w2_t">Transparentna wycena</div>
+          <div class="why-item-desc" data-i18n="w2_d">Przed każdą naprawą omawiamy zakres prac i koszt. Nie zaczynamy bez Twojej zgody. Żadnych niespodzianek na końcu — cena jest taka, jaka była ustalona.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div>
+          <div class="why-item-title" data-i18n="w3_t">Szybka realizacja</div>
+          <div class="why-item-desc" data-i18n="w3_d">Wiemy, że samochód to narzędzie pracy i codziennego życia. Staramy się oddawać auta tego samego dnia lub jak najszybciej — bez zbędnego przeciągania terminów.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div>
+          <div class="why-item-title" data-i18n="w4_t">Łatwy kontakt — WhatsApp</div>
+          <div class="why-item-desc" data-i18n="w4_d">Masz pytanie o naprawę lub chcesz się umówić? Napisz na WhatsApp — to najszybszy sposób kontaktu. Odpowiadamy sprawnie i bez zbędnych formalności.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
 <!-- HOURS (dark) -->
 <div class="hours-band">
-<div class="hours-inner">
-<div class="hours-title" data-i18n="hours_title">GODZINY OTWARCIA</div>
-<div class="hours-pills">
-<div class="hours-pill"><div class="hours-dot"></div><span data-
-i18n="hours_weekday">Pon – Pt: 9:00 – 20:00</span></div>
-<div class="hours-pill"><div class="hours-dot"></div><span data-
-i18n="hours_saturday">Sobota: 9:00 – 19:00</span></div>
+  <div class="hours-inner">
+    <div class="hours-title" data-i18n="hours_title">GODZINY OTWARCIA</div>
+    <div class="hours-pills">
+      <div class="hours-pill"><div class="hours-dot"></div><span data-i18n="hours_weekday">Pon – Pt: 9:00 – 20:00</span></div>
+      <div class="hours-pill"><div class="hours-dot"></div><span data-i18n="hours_saturday">Sobota: 9:00 – 19:00</span></div>
+    </div>
+    <div class="hours-closed" data-i18n="hours_sunday">Niedziela — zamknięte</div>
+    <a href="tel:571941266" class="btn btn-primary" style="padding:11px 22px;font-size:.85rem;" data-i18n="hours_cta">Zadzwoń teraz</a>
+  </div>
 </div>
-<div class="hours-closed" data-i18n="hours_sunday">Niedziela — zamknięte</div>
-<a href="tel:571941266" class="btn btn-primary" style="padding:11px 22px;font-
-size:.85rem;" data-i18n="hours_cta">Zadzwoń teraz</a>
-</div>
-</div>
+
 <!-- CONTACT -->
 <section id="kontakt" class="alt">
-<div class="eyebrow" data-i18n="c_eyebrow">Gdzie jesteśmy</div>
-<h2 class="sec-title" data-i18n="c_title">KONTAKT</h2>
-<p class="sec-desc" data-i18n="c_desc">Jesteśmy zlokalizowani w Straszynie, kilka minut
-od Gdańska. Dojazd jest prosty — zapraszamy na Starogardzką 16B.</p>
-<div class="contact-grid">
-<div class="contact-card">
-<h3 data-i18n="c_card_title">DANE KONTAKTOWE</h3>
-<div class="ci">
-<div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0
-0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-<div>
-<div class="ci-label" data-i18n="c_address_lbl">Adres</div>
-<div class="ci-val"><a href="https://maps.app.goo.gl/yMshUGn6QiiyBQgA6"
-target="_blank" rel="noopener">Starogardzka 16B, 83-010 Straszyn</a></div>
-</div>
-</div>
-<div class="ci">
-<div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0
-01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.12 2.18 2 2 0 012.11 0h3a2 2 0 012
-1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0
-012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
-<div>
-<div class="ci-label" data-i18n="c_phone_lbl">Telefon</div>
-<div class="ci-val"><a href="tel:571941266">571 941 266</a></div>
-</div>
-</div>
-<div class="ci">
-<div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0
-01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38
-8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-<div>
-<div class="ci-label">WhatsApp</div>
-<div class="ci-val"><a href="https://wa.me/48571941266" target="_blank"
-rel="noopener" data-i18n="c_wa_val">Napisz na WhatsApp</a></div>
-</div>
-</div>
-<div class="ci">
-<div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12
-6 12 12 16 14"/></svg></div>
-<div>
-<div class="ci-label" data-i18n="c_hours_lbl">Godziny pracy</div>
-<div class="ci-val ci-val-sm">
-<span data-i18n="hours_weekday">Pon – Pt: 9:00 – 20:00</span><br>
-<span data-i18n="hours_saturday">Sobota: 9:00 – 19:00</span>
-</div>
-</div>
-</div>
-<div style="margin-top:28px;">
-<a href="https://maps.app.goo.gl/yMshUGn6QiiyBQgA6" target="_blank" rel="noopener"
-class="btn btn-primary" style="width:100%;justify-content:center;">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle
-cx="12" cy="10" r="3"/></svg>
-<span data-i18n="c_maps_btn">Otwórz w Google Maps</span>
-</a>
-</div>
-</div>
-<!-- Map box (no iframe — works everywhere) -->
-<div class="map-box">
-<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-stroke-width="1.4">
-<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10"
-r="3"/>
-</svg>
-<div class="map-box-title">Next Auto Life</div>
-<div class="map-box-addr">Starogardzka 16B<br>83-010 Straszyn</div>
-<a href="https://maps.app.goo.gl/yMshUGn6QiiyBQgA6" target="_blank" rel="noopener"
-class="btn btn-primary" style="margin-top:8px;">
-<span data-i18n="c_maps_btn">Otwórz w Google Maps</span>
-</a>
-</div>
-</div>
+  <div class="eyebrow" data-i18n="c_eyebrow">Gdzie jesteśmy</div>
+  <h2 class="sec-title" data-i18n="c_title">KONTAKT</h2>
+  <p class="sec-desc" data-i18n="c_desc">Jesteśmy zlokalizowani w Straszynie, kilka minut od Gdańska. Dojazd jest prosty — zapraszamy na Starogardzką 16B.</p>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3 data-i18n="c_card_title">DANE KONTAKTOWE</h3>
+      <div class="ci">
+        <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="ci-label" data-i18n="c_address_lbl">Adres</div>
+          <div class="ci-val"><a href="https://maps.app.goo.gl/yMshUGn6QiiyBQgA6" target="_blank" rel="noopener">Starogardzka 16B, 83-010 Straszyn</a></div>
+        </div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.12 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
+        <div>
+          <div class="ci-label" data-i18n="c_phone_lbl">Telefon</div>
+          <div class="ci-val"><a href="tel:571941266">571 941 266</a></div>
+        </div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <div>
+          <div class="ci-label" data-i18n="c_wa_lbl">WhatsApp</div>
+          <div class="ci-val"><a href="https://wa.me/48571941266" target="_blank" rel="noopener" data-i18n="c_wa_val">Napisz na WhatsApp</a></div>
+        </div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <div class="ci-label" data-i18n="c_hours_lbl">Godziny pracy</div>
+          <div class="ci-val ci-val-sm">
+            <span data-i18n="hours_weekday">Pon – Pt: 9:00 – 20:00</span><br>
+            <span data-i18n="hours_saturday">Sobota: 9:00 – 19:00</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <a href="https://maps.app.goo.gl/yMshUGn6QiiyBQgA6" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-i18n="c_maps_btn">Otwórz w Google Maps</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Map box (no iframe — works everywhere) -->
+    <div class="map-box">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      <div class="map-box-title" data-i18n="c_map_title">Next Auto Life</div>
+      <div class="map-box-addr" data-i18n="c_map_addr">Starogardzka 16B<br>83-010 Straszyn</div>
+      <a href="https://maps.app.goo.gl/yMshUGn6QiiyBQgA6" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">
+        <span data-i18n="c_maps_btn">Otwórz w Google Maps</span>
+      </a>
+    </div>
+  </div>
 </section>
+
 <!-- FOOTER -->
 <footer>
-<div class="footer-logo"><span>NEXT</span> AUTO LIFE</div>
-<div class="footer-copy">Starogardzka 16B, 83-010 Straszyn</div>
-<div class="footer-copy">© 2025 Next Auto Life</div>
+  <div class="footer-logo"><span>NEXT</span> AUTO LIFE</div>
+  <div class="footer-copy" data-i18n="footer_addr">Starogardzka 16B, 83-010 Straszyn</div>
+  <div class="footer-copy">© 2026 Next Auto Life</div>
 </footer>
+
 <script>
 const T = {
-pl: {
-nav_services:"Usługi",nav_about:"O nas",nav_contact:"Kontakt",
-hero_badge:"Auto Repair Shop · Straszyn k. Gdańska",
-hero_sub:"Profesjonalny serwis samochodowy pod Gdańskiem. Diagnostyka komputerowa,
-mechanika pojazdowa, wulkanizacja i szybkie usługi — wszystko pod jednym dachem.",
-hero_call:"Zadzwoń teraz",hero_map:"Znajdź nas na mapie",
-stat_rating:"Ocena Google",stat_interactions:"Interakcji klientów",
-srv_eyebrow:"Co robimy",srv_title:"NASZE USŁUGI",
-srv_desc:"Oferujemy pełen zakres usług motoryzacyjnych — od szybkiej diagnostyki po
-kompleksowe naprawy. Każde zlecenie realizujemy rzetelnie, używając sprawdzonych części i
-nowoczesnego sprzętu.",
-s1_title:"Diagnostyka komputerowa",s1_desc:"Używamy profesjonalnych urządzeń
-diagnostycznych do odczytu kodów błędów ze wszystkich układów pojazdu — silnik, ABS,
-ESP, poduszki powietrzne i inne. Precyzyjna diagnostyka to pierwszy krok do skutecznej
-naprawy — oszczędzasz czas i pieniądze.",
-s2_title:"Mechanika pojazdowa",s2_desc:"Kompleksowy serwis: wymiana oleju i filtrów,
-naprawa hamulców, zawieszenia, układu kierowniczego i przeniesienia napędu. Wymieniamy
-rozrządy, sprzęgła, amortyzatory. Używamy markowych części dopasowanych do konkretnego
-modelu — solidnie i z gwarancją.",
-s3_title:"Wulkanizacja",s3_desc:"Montaż i demontaż opon letnich i zimowych, wyważanie
-kół, prostowanie obręczy, naprawa przebić oraz ocena stanu ogumienia. Doradzamy w
-doborze opon. Bezpieczeństwo na drodze zaczyna się od właściwie dobranych opon.",
-s4_title:"Szybkie usługi",s4_desc:"Wymiana żarówek, wycieraczek, płynów, akumulatora czy
-kontrola ciśnienia opon — robimy to szybko, bez zapisów i bez czekania. Wpadnij — zajmiemy
-się Twoim autem od ręki tego samego dnia.",
-s5_title:"Przegląd techniczny",s5_desc:"Przed badaniem technicznym sprawdzimy Twój
-samochód od A do Z — oświetlenie, hamulce, emisja spalin, geometria kół, stan nadwozia.
-Przygotujemy auto tak, by bez problemu zdało przegląd i bezpiecznie służyło przez kolejne
-lata.",
-s6_title:"Naprawy elektryczne",s6_desc:"Naprawa instalacji elektrycznej, wymiana
-czujników, alternatorów, rozruszników oraz diagnoza problemów ze sterownikami ECU. Usterki
-elektryczne bywają trudne do zlokalizowania — ale mamy doświadczenie i sprzęt, by sobie z
-nimi poradzić.",
-why_eyebrow:"Dlaczego my",why_title:"JAKOŚĆ<br>KTÓRĄ CZUJESZ",
-why_desc:"Jesteśmy lokalnym serwisem z misją — oferować najwyższą jakość usług w
-przystępnej cenie. Zaufało nam już wielu kierowców z Straszyna, Pruszcza Gdańskiego i
-okolic.",
-w1_t:"Ocena 5.0 ★ w Google",w1_d:"Każda opinia to dla nas zobowiązanie. Dążymy do
-tego, by każdy klient wyszedł od nas zadowolony — z naprawy, obsługi i ceny. Nasza reputacja
-budowana jest jedną wizytą na raz.",
-w2_t:"Transparentna wycena",w2_d:"Przed każdą naprawą omawiamy zakres prac i koszt.
-Nie zaczynamy bez Twojej zgody. Żadnych niespodzianek na końcu — cena jest taka, jaka była
-ustalona.",
-w3_t:"Szybka realizacja",w3_d:"Wiemy, że samochód to narzędzie pracy i codziennego
-życia. Staramy się oddawać auta tego samego dnia lub jak najszybciej — bez zbędnego
-przeciągania terminów.",
-w4_t:"Łatwy kontakt — WhatsApp",w4_d:"Masz pytanie o naprawę lub chcesz się umówić?
-Napisz na WhatsApp — to najszybszy sposób kontaktu. Odpowiadamy sprawnie i bez
-zbędnych formalności.",
-hours_title:"GODZINY OTWARCIA",hours_weekday:"Pon – Pt: 9:00 – 20:00",
-hours_saturday:"Sobota: 9:00 – 19:00",hours_sunday:"Niedziela —
-zamknięte",hours_cta:"Zadzwoń teraz",
-c_eyebrow:"Gdzie jesteśmy",c_title:"KONTAKT",
-c_desc:"Jesteśmy zlokalizowani w Straszynie, kilka minut od Gdańska. Dojazd jest prosty —
-zapraszamy na Starogardzką 16B.",
-c_card_title:"DANE KONTAKTOWE",c_address_lbl:"Adres",c_phone_lbl:"Telefon",
-c_hours_lbl:"Godziny pracy",c_wa_val:"Napisz na WhatsApp",c_maps_btn:"Otwórz w
-Google Maps"
-},
-en: {
-nav_services:"Services",nav_about:"About",nav_contact:"Contact",
-hero_badge:"Auto Repair Shop · Straszyn near Gdańsk",
-hero_sub:"Professional car service near Gdańsk. Computer diagnostics, vehicle mechanics,
-tyre fitting and quick services — all under one roof.",
-hero_call:"Call now",hero_map:"Find us on the map",
-stat_rating:"Google Rating",stat_interactions:"Customer interactions",
-srv_eyebrow:"What we do",srv_title:"OUR SERVICES",
-srv_desc:"We oﬀer a full range of automotive services — from quick diagnostics to
-comprehensive repairs. Every job is done thoroughly using quality parts and modern
-equipment.",
-s1_title:"Computer diagnostics",s1_desc:"We use professional diagnostic devices to read
-fault codes from all vehicle systems — engine, ABS, ESP, airbags and more. Precise
-diagnostics saves you time and money — we know exactly what needs attention.",
-s2_title:"Vehicle mechanics",s2_desc:"Full mechanical service: oil and filter changes, brake
-and suspension repairs, steering and drivetrain work. We replace timing belts, clutches, shock
-absorbers and more — using quality branded parts with warranty.",
-s3_title:"Tyre fitting",s3_desc:"Fitting and removal of summer and winter tyres, wheel
-balancing, rim straightening, puncture repairs and tyre condition assessment. We advise on
-tyre selection for your driving style.",
-s4_title:"Quick services",s4_desc:"Bulb, wiper, fluid or battery replacement, tyre pressure
-check — we do it fast, no appointment needed. Drop in and we'll handle your car right away,
-same day.",
-s5_title:"Technical inspection prep",s5_desc:"Before your MOT we check your car from top
-to bottom — lighting, brakes, emissions, wheel alignment and body condition. We prepare your
-vehicle so it passes the inspection without issues.",
-s6_title:"Electrical repairs",s6_desc:"Wiring repairs, sensor replacements, alternators,
-starters and ECU diagnostics. Electrical faults can be hard to locate — but we have the
-experience and equipment to handle them.",
-why_eyebrow:"Why us",why_title:"QUALITY<br>YOU CAN FEEL",
-why_desc:"We're a local service with a mission — to oﬀer top-quality work at a fair price.
-Drivers from Straszyn, Pruszcz Gdański and the surrounding area already trust us.",
-w1_t:"5.0 ★ Google rating",w1_d:"Every review is a commitment for us. We aim for every
-customer to leave satisfied — with the repair, the service, and the price. Our reputation is built
-one visit at a time.",
-w2_t:"Transparent pricing",w2_d:"Before every repair we discuss the scope and cost. We
-don't start work without your approval. No surprises at the end — the price is exactly what was
-agreed.",
-w3_t:"Fast turnaround",w3_d:"We know a car is a tool for work and daily life. We aim to
-return vehicles the same day or as quickly as possible — without unnecessary delays.",
-w4_t:"Easy contact — WhatsApp",w4_d:"Have a question or want to book? Message us on
-WhatsApp — it's the fastest way to get in touch. We respond quickly and without unnecessary
-formalities.",
-hours_title:"OPENING HOURS",hours_weekday:"Mon – Fri: 9:00 – 20:00",
-hours_saturday:"Saturday: 9:00 – 19:00",hours_sunday:"Sunday — closed",hours_cta:"Call
-now",
-c_eyebrow:"Where we are",c_title:"CONTACT",
-c_desc:"We're located in Straszyn, a few minutes from Gdańsk. Easy to reach — come to
-Starogardzka 16B.",
-c_card_title:"CONTACT DETAILS",c_address_lbl:"Address",c_phone_lbl:"Phone",
-c_hours_lbl:"Working hours",c_wa_val:"Message on WhatsApp",c_maps_btn:"Open in
-Google Maps"
-},
-ru: {
-nav_services:"Услуги",nav_about:"О нас",nav_contact:"Контакт",
-hero_badge:"Автосервис · Страшин, рядом с Гданьском",
-hero_sub:"Профессиональный автосервис под Гданьском. Компьютерная диагностика,
-механика, шиномонтаж и быстрые услуги — всё в одном месте.",
-hero_call:"Позвонить",hero_map:"Найти нас на карте",
-stat_rating:"Рейтинг Google",stat_interactions:"Взаимодействий с клиентами",
-srv_eyebrow:"Что мы делаем",srv_title:"НАШИ УСЛУГИ",
-srv_desc:"Предлагаем полный спектр автомобильных услуг — от быстрой диагностики
-до комплексного ремонта. Каждый заказ выполняем добросовестно, используя
-проверенные запчасти и современное оборудование.",
-s1_title:"Компьютерная диагностика",s1_desc:"Используем профессиональное
-диагностическое оборудование для считывания кодов ошибок со всех систем —
-двигатель, ABS, ESP, подушки безопасности. Точная диагностика экономит ваше время и
-деньги.",
-s2_title:"Автомеханика",s2_desc:"Замена масла и фильтров, ремонт тормозов,
-подвески, рулевого управления. Меняем ремни ГРМ, сцепления, амортизаторы.
-Используем качественные запчасти под конкретную модель — с гарантией.",
-s3_title:"Шиномонтаж",s3_desc:"Монтаж и демонтаж летних и зимових шин,
-балансировка колёс, правка дисков, ремонт проколов. Консультируем по подбору шин
-для вашего стиля вождения.",
-s4_title:"Быстрые услуги",s4_desc:"Замена лампочек, дворников, жидкостей,
-аккумулятора или проверка давления — делаем быстро, без записи. Приезжайте —
-займёмся вашим авто сразу, в тот же день.",
-s5_title:"Технический осмотр",s5_desc:"Перед техосмотром проверим автомобиль от А
-до Я — освещение, тормоза, выхлоп, геометрию колёс. Подготовим машину так, чтобы
-она прошла осмотр без проблем.",
-s6_title:"Электрические неисправности",s6_desc:"Ремонт электропроводки, замена
-датчиков, генераторов, стартеров и диагностика блоков управления ECU. Опыт и
-оборудование позволяют нам находить даже сложные электрические неисправности.",
-why_eyebrow:"Почему мы",why_title:"КАЧЕСТВО,<br>КОТОРОЕ ЧУВСТВУЕШЬ",
-why_desc:"Местный сервис с миссией — высокое качество по доступной цене. Нам
-уже доверяют водители из Страшина, Прущ-Гданьского и окрестностей.",
-w1_t:"Рейтинг 5.0 ★ в Google",w1_d:"Каждый отзыв — обязательство для нас.
-Стремимся, чтобы каждый клиент ушёл довольным ремонтом, обслуживанием и ценой.",
-w2_t:"Прозрачная оценка",w2_d:"Перед каждым ремонтом обсуждаем объём работ и
-стоимость. Не начинаем без вашего согласия. Никаких сюрпризов в конце.",
-w3_t:"Быстрое выполнение",w3_d:"Знаем, что авто — инструмент для работы и жизни.
-Стараемся возвращать автомобили в тот же день или как можно быстрее.",
-w4_t:"Лёгкий контакт — WhatsApp",w4_d:"Есть вопрос или хотите записаться?
-Напишите в WhatsApp — самый быстрый способ связи. Отвечаем оперативно.",
-hours_title:"ЧАСЫ РАБОТЫ",hours_weekday:"Пн – Пт: 9:00 – 20:00",
-hours_saturday:"Суббота: 9:00 – 19:00",hours_sunday:"Воскресенье —
-закрыто",hours_cta:"Позвонить",
-c_eyebrow:"Где мы находимся",c_title:"КОНТАКТЫ",
-c_desc:"Находимся в Страшине, в нескольких минутах от Гданьска. Улица
-Старогардзка 16B.",
-c_card_title:"КОНТАКТНЫЕ ДАННЫЕ",c_address_lbl:"Адрес",c_phone_lbl:"Телефон",
-c_hours_lbl:"Часы работы",c_wa_val:"Написать в WhatsApp",c_maps_btn:"Открыть в
-Google Maps"
-},
-uk: {
-nav_services:"Послуги",nav_about:"Про нас",nav_contact:"Контакт",
-hero_badge:"Автосервіс · Страшин біля Гданська",
-hero_sub:"Професійний автосервіс під Гданськом. Комп'ютерна діагностика, механіка,
-шиномонтаж та швидкі послуги — все в одному місці.",
-hero_call:"Зателефонувати",hero_map:"Знайти нас на карті",
-stat_rating:"Рейтинг Google",stat_interactions:"Взаємодій з клієнтами",
-srv_eyebrow:"Що ми робимо",srv_title:"НАШІ ПОСЛУГИ",
-srv_desc:"Пропонуємо повний спектр автомобільних послуг — від швидкої діагностики
-до комплексного ремонту. Кожне замовлення виконуємо сумлінно, використовуючи
-перевірені запчастини та сучасне обладнання.",
-s1_title:"Комп'ютерна діагностика",s1_desc:"Використовуємо професійне діагностичне
-обладнання для зчитування кодів помилок з усіх систем — двигун, ABS, ESP, подушки
-безпеки. Точна діагностика економить ваш час та гроші.",
-s2_title:"Автомеханіка",s2_desc:"Заміна масла та фільтрів, ремонт гальм, підвіски,
-рульового керування. Замінюємо ремені ГРМ, зчеплення, амортизатори.
-Використовуємо якісні фірмові запчастини — з гарантією.",
-s3_title:"Шиномонтаж",s3_desc:"Монтаж та демонтаж літніх і зимових шин,
-балансування коліс, правка дисків, ремонт проколів. Консультуємо з підбору шин для
-вашого стилю водіння.",
-s4_title:"Швидкі послуги",s4_desc:"Заміна лампочок, двірників, рідин, акумулятора або
-перевірка тиску — робимо швидко, без запису. Приїжджайте — займемося вашим авто
-одразу, того ж дня.",
-s5_title:"Технічний огляд",s5_desc:"Перед техоглядом перевіримо автомобіль від А до
-Я — освітлення, гальма, вихлоп, геометрія коліс. Підготуємо авто так, щоб воно пройшло
-огляд без проблем.",
-s6_title:"Електричні несправності",s6_desc:"Ремонт електропроводки, заміна датчиків,
-генераторів, стартерів та діагностика блоків керування ECU. Досвід і обладнання
-дозволяють нам знаходити навіть складні несправності.",
-why_eyebrow:"Чому ми",why_title:"ЯКІСТЬ,<br>ЯКУ ВІДЧУВАЄШ",
-why_desc:"Місцевий сервіс з місією — найвища якість за доступною ціною. Нам
-довіряють водії зі Страшина, Прущ-Гданського та околиць.",
-w1_t:"Рейтинг 5.0 ★ у Google",w1_d:"Кожен відгук — зобов'язання для нас. Прагнемо,
-щоб кожен клієнт пішов задоволеним ремонтом, обслуговуванням і ціною.",
-w2_t:"Прозоре ціноутворення",w2_d:"Перед кожним ремонтом обговорюємо обсяг
-робіт та вартість. Не починаємо без вашої згоди. Жодних сюрпризів наприкінці.",
-w3_t:"Швидке виконання",w3_d:"Знаємо, що авто — інструмент для роботи та
-щоденного життя. Намагаємося повертати авто того ж дня або якомога швидше.",
-w4_t:"Легкий контакт — WhatsApp",w4_d:"Є питання або хочете записатися? Напишіть
-у WhatsApp — найшвидший спосіб зв'язку. Відповідаємо оперативно.",
-hours_title:"ГОДИНИ РОБОТИ",hours_weekday:"Пн – Пт: 9:00 – 20:00",
-hours_saturday:"Субота: 9:00 – 19:00",hours_sunday:"Неділя —
-зачинено",hours_cta:"Зателефонувати",
-c_eyebrow:"Де ми знаходимось",c_title:"КОНТАКТИ",
-c_desc:"Знаходимося в Страшині, за кілька хвилин від Гданська. Вулиця
-Старогардська 16B.",
-c_card_title:"КОНТАКТНІ ДАНІ",c_address_lbl:"Адреса",c_phone_lbl:"Телефон",
-c_hours_lbl:"Години роботи",c_wa_val:"Написати у WhatsApp",c_maps_btn:"Відкрити в
-Google Maps"
-}
+  pl: {
+    nav_services:"Usługi",nav_about:"O nas",nav_contact:"Kontakt",
+    hero_badge:"Auto Repair Shop · Straszyn k. Gdańska",
+    hero_sub:"Profesjonalny serwis samochodowy pod Gdańskiem. Diagnostyka komputerowa, mechanika pojazdowa, wulkanizacja i szybkie usługi — wszystko pod jednym dachem.",
+    hero_call:"Zadzwoń teraz",hero_map:"Znajdź nas na mapie",
+    stat_rating:"Ocena Google",stat_interactions:"Interakcji klientów",
+    srv_eyebrow:"Co robimy",srv_title:"NASZE USŁUGI",
+    srv_desc:"Oferujemy pełen zakres usług motoryzacyjnych — od szybkiej diagnostyki po kompleksowe naprawy. Każde zlecenie realizujemy rzetelnie, używając sprawdzonych części i nowoczesnego sprzętu.",
+    s1_title:"Diagnostyka komputerowa",s1_desc:"Używamy profesjonalnych urządzeń diagnostycznych do odczytu kodów błędów ze wszystkich układów pojazdu — silnik, ABS, ESP, poduszki powietrzne i inne. Precyzyjna diagnostyka to pierwszy krok do skutecznej naprawy — oszczędzasz czas i pieniądze.",
+    s2_title:"Mechanika pojazdowa",s2_desc:"Kompleksowy serwis: wymiana oleju i filtrów, naprawa hamulców, zawieszenia, układu kierowniczego i przeniesienia napędu. Wymieniamy rozrządy, sprzęgła, amortyzatory. Używamy markowych części dopasowanych do konkretnego modelu — solidnie i z gwarancją.",
+    s3_title:"Wulkanizacja",s3_desc:"Montaż i demontaż opon letnich i zimowych, wyważanie kół, prostowanie obręczy, naprawa przebić oraz ocena stanu ogumienia. Doradzamy w doborze opon. Bezpieczeństwo na drodze zaczyna się od właściwie dobranych opon.",
+    s4_title:"Szybkie usługi",s4_desc:"Wymiana żarówek, wycieraczek, płynów, akumulatora czy kontrola ciśnienia opon — robimy to szybko, bez zapisów i bez czekania. Wpadnij — zajmiemy się Twoim autem od ręki tego samego dnia.",
+    s5_title:"Przegląd techniczny",s5_desc:"Przed badaniem technicznym sprawdzimy Twój samochód od A do Z — oświetlenie, hamulce, emisja spalin, geometria kół, stan nadwozia. Przygotujemy auto tak, by bez problemu zdało przegląd i bezpiecznie służyło przez kolejne lata.",
+    s6_title:"Naprawy elektryczne",s6_desc:"Naprawa instalacji elektrycznej, wymiana czujników, alternatorów, rozruszników oraz diagnoza problemów ze sterownikami ECU. Usterki elektryczne bywają trudne do zlokalizowania — ale mamy doświadczenie i sprzęt, by sobie z nimi poradzić.",
+    why_eyebrow:"Dlaczego my",why_title:"JAKOŚĆ<br>KTÓRĄ CZUJESZ",
+    why_desc:"Jesteśmy lokalnym serwisem z misją — oferować najwyższą jakość usług w przystępnej cenie. Zaufało nam już wielu kierowców z Straszyna, Pruszcza Gdańskiego i okolic.",
+    w1_t:"Ocena 5.0 ★ w Google",w1_d:"Każda opinia to dla nas zobowiązanie. Dążymy do tego, by każdy klient wyszedł od nas zadowolony — z naprawy, obsługi i ceny. Nasza reputacja budowana jest jedną wizytą na raz.",
+    w2_t:"Transparentna wycena",w2_d:"Przed każdą naprawą omawiamy zakres prac i koszt. Nie zaczynamy bez Twojej zgody. Żadnych niespodzianek na końcu — cena jest taka, jaka była ustalona.",
+    w3_t:"Szybka realizacja",w3_d:"Wiemy, że samochód to narzędzie pracy i codziennego życia. Staramy się oddawać auta tego samego dnia lub jak najszybciej — bez zbędnego przeciągania terminów.",
+    w4_t:"Łatwy kontakt — WhatsApp",w4_d:"Masz pytanie o naprawę lub chcesz się umówić? Napisz na WhatsApp — to najszybszy sposób kontaktu. Odpowiadamy sprawnie i bez zbędnych formalności.",
+    hours_title:"GODZINY OTWARCIA",hours_weekday:"Pon – Pt: 9:00 – 20:00",
+    hours_saturday:"Sobota: 9:00 – 19:00",hours_sunday:"Niedziela — zamknięte",hours_cta:"Zadzwoń teraz",
+    c_eyebrow:"Gdzie jesteśmy",c_title:"KONTAKT",
+    c_desc:"Jesteśmy zlokalizowani w Straszynie, kilka minut od Gdańska. Dojazd jest prosty — zapraszamy na Starogardzką 16B.",
+    c_card_title:"DANE KONTAKTOWE",c_address_lbl:"Adres",c_phone_lbl:"Telefon",
+    c_hours_lbl:"Godziny pracy",c_wa_lbl:"WhatsApp",c_wa_val:"Napisz na WhatsApp",c_maps_btn:"Otwórz w Google Maps",
+    c_map_title:"Next Auto Life",c_map_addr:"Starogardzka 16B<br>83-010 Straszyn",footer_addr:"Starogardzka 16B, 83-010 Straszyn"
+  },
+  en: {
+    nav_services:"Services",nav_about:"About",nav_contact:"Contact",
+    hero_badge:"Auto Repair Shop · Straszyn near Gdańsk",
+    hero_sub:"Professional car service near Gdańsk. Computer diagnostics, vehicle mechanics, tyre fitting and quick services — all under one roof.",
+    hero_call:"Call now",hero_map:"Find us on the map",
+    stat_rating:"Google Rating",stat_interactions:"Customer interactions",
+    srv_eyebrow:"What we do",srv_title:"OUR SERVICES",
+    srv_desc:"We offer a full range of automotive services — from quick diagnostics to comprehensive repairs. Every job is done thoroughly using quality parts and modern equipment.",
+    s1_title:"Computer diagnostics",s1_desc:"We use professional diagnostic devices to read fault codes from all vehicle systems — engine, ABS, ESP, airbags and more. Precise diagnostics saves you time and money — we know exactly what needs attention.",
+    s2_title:"Vehicle mechanics",s2_desc:"Full mechanical service: oil and filter changes, brake and suspension repairs, steering and drivetrain work. We replace timing belts, clutches, shock absorbers and more — using quality branded parts with warranty.",
+    s3_title:"Tyre fitting",s3_desc:"Fitting and removal of summer and winter tyres, wheel balancing, rim straightening, puncture repairs and tyre condition assessment. We advise on tyre selection for your driving style.",
+    s4_title:"Quick services",s4_desc:"Bulb, wiper, fluid or battery replacement, tyre pressure check — we do it fast, no appointment needed. Drop in and we'll handle your car right away, same day.",
+    s5_title:"Technical inspection prep",s5_desc:"Before your MOT we check your car from top to bottom — lighting, brakes, emissions, wheel alignment and body condition. We prepare your vehicle so it passes the inspection without issues.",
+    s6_title:"Electrical repairs",s6_desc:"Wiring repairs, sensor replacements, alternators, starters and ECU diagnostics. Electrical faults can be hard to locate — but we have the experience and equipment to handle them.",
+    why_eyebrow:"Why us",why_title:"QUALITY<br>YOU CAN FEEL",
+    why_desc:"We're a local service with a mission — to offer top-quality work at a fair price. Drivers from Straszyn, Pruszcz Gdański and the surrounding area already trust us.",
+    w1_t:"5.0 ★ Google rating",w1_d:"Every review is a commitment for us. We aim for every customer to leave satisfied — with the repair, the service, and the price. Our reputation is built one visit at a time.",
+    w2_t:"Transparent pricing",w2_d:"Before every repair we discuss the scope and cost. We don't start work without your approval. No surprises at the end — the price is exactly what was agreed.",
+    w3_t:"Fast turnaround",w3_d:"We know a car is a tool for work and daily life. We aim to return vehicles the same day or as quickly as possible — without unnecessary delays.",
+    w4_t:"Easy contact — WhatsApp",w4_d:"Have a question or want to book? Message us on WhatsApp — it's the fastest way to get in touch. We respond quickly and without unnecessary formalities.",
+    hours_title:"OPENING HOURS",hours_weekday:"Mon – Fri: 9:00 – 20:00",
+    hours_saturday:"Saturday: 9:00 – 19:00",hours_sunday:"Sunday — closed",hours_cta:"Call now",
+    c_eyebrow:"Where we are",c_title:"CONTACT",
+    c_desc:"We're located in Straszyn, a few minutes from Gdańsk. Easy to reach — come to Starogardzka 16B.",
+    c_card_title:"CONTACT DETAILS",c_address_lbl:"Address",c_phone_lbl:"Phone",
+    c_hours_lbl:"Working hours",c_wa_lbl:"WhatsApp",c_wa_val:"Message on WhatsApp",c_maps_btn:"Open in Google Maps",
+    c_map_title:"Next Auto Life",c_map_addr:"Starogardzka 16B<br>83-010 Straszyn",footer_addr:"Starogardzka 16B, 83-010 Straszyn"
+  },
+  ru: {
+    nav_services:"Услуги",nav_about:"О нас",nav_contact:"Контакт",
+    hero_badge:"Автосервис · Страшин, рядом с Гданьском",
+    hero_sub:"Профессиональный автосервис под Гданьском. Компьютерная диагностика, механика, шиномонтаж и быстрые услуги — всё в одном месте.",
+    hero_call:"Позвонить",hero_map:"Найти нас на карте",
+    stat_rating:"Рейтинг Google",stat_interactions:"Взаимодействий с клиентами",
+    srv_eyebrow:"Что мы делаем",srv_title:"НАШИ УСЛУГИ",
+    srv_desc:"Предлагаем полный спектр автомобильных услуг — от быстрой диагностики до комплексного ремонта. Каждый заказ выполняем добросовестно, используя проверенные запчасти и современное оборудование.",
+    s1_title:"Компьютерная диагностика",s1_desc:"Используем профессиональное диагностическое оборудование для считывания кодов ошибок со всех систем — двигатель, ABS, ESP, подушки безопасности. Точная диагностика экономит ваше время и деньги.",
+    s2_title:"Автомеханика",s2_desc:"Замена масла и фильтров, ремонт тормозов, подвески, рулевого управления. Меняем ремни ГРМ, сцепления, амортизаторы. Используем качественные запчасти под конкретную модель — с гарантией.",
+    s3_title:"Шиномонтаж",s3_desc:"Монтаж и демонтаж летних и зимних шин, балансировка колёс, правка дисков, ремонт проколов. Консультируем по подбору шин для вашего стиля вождения.",
+    s4_title:"Быстрые услуги",s4_desc:"Замена лампочек, дворников, жидкостей, аккумулятора или проверка давления — делаем быстро, без записи. Приезжайте — займёмся вашим авто сразу, в тот же день.",
+    s5_title:"Технический осмотр",s5_desc:"Перед техосмотром проверим автомобиль от А до Я — освещение, тормоза, выхлоп, геометрию колёс. Подготовим машину так, чтобы она прошла осмотр без проблем.",
+    s6_title:"Электрические неисправности",s6_desc:"Ремонт электропроводки, замена датчиков, генераторов, стартеров и диагностика блоков управления ECU. Опыт и оборудование позволяют нам находить даже сложные электрические неисправности.",
+    why_eyebrow:"Почему мы",why_title:"КАЧЕСТВО,<br>КОТОРОЕ ЧУВСТВУЕШЬ",
+    why_desc:"Местный сервис с миссией — высокое качество по доступной цене. Нам уже доверяют водители из Страшина, Прущ-Гданьского и окрестностей.",
+    w1_t:"Рейтинг 5.0 ★ в Google",w1_d:"Каждый отзыв — обязательство для нас. Стремимся, чтобы каждый клиент ушёл довольным ремонтом, обслуживанием и ценой.",
+    w2_t:"Прозрачная оценка",w2_d:"Перед каждым ремонтом обсуждаем объём работ и стоимость. Не начинаем без вашего согласия. Никаких сюрпризов в конце.",
+    w3_t:"Быстрое выполнение",w3_d:"Знаем, что авто — инструмент для работы и жизни. Стараемся возвращать автомобили в тот же день или как можно быстрее.",
+    w4_t:"Лёгкий контакт — WhatsApp",w4_d:"Есть вопрос или хотите записаться? Напишите в WhatsApp — самый быстрый способ связи. Отвечаем оперативно.",
+    hours_title:"ЧАСЫ РАБОТЫ",hours_weekday:"Пн – Пт: 9:00 – 20:00",
+    hours_saturday:"Суббота: 9:00 – 19:00",hours_sunday:"Воскресенье — закрыто",hours_cta:"Позвонить",
+    c_eyebrow:"Где мы находимся",c_title:"КОНТАКТЫ",
+    c_desc:"Находимся в Страшине, в нескольких минутах от Гданьска. Улица Старогардзка 16B.",
+    c_card_title:"КОНТАКТНЫЕ ДАННЫЕ",c_address_lbl:"Адрес",c_phone_lbl:"Телефон",
+    c_hours_lbl:"Часы работы",c_wa_lbl:"WhatsApp",c_wa_val:"Написать в WhatsApp",c_maps_btn:"Открыть в Google Maps",
+    c_map_title:"Next Auto Life",c_map_addr:"Starogardzka 16B<br>83-010 Straszyn",footer_addr:"Starogardzka 16B, 83-010 Straszyn"
+  },
+  uk: {
+    nav_services:"Послуги",nav_about:"Про нас",nav_contact:"Контакт",
+    hero_badge:"Автосервіс · Страшин біля Гданська",
+    hero_sub:"Професійний автосервіс під Гданськом. Комп'ютерна діагностика, механіка, шиномонтаж та швидкі послуги — все в одному місці.",
+    hero_call:"Зателефонувати",hero_map:"Знайти нас на карті",
+    stat_rating:"Рейтинг Google",stat_interactions:"Взаємодій з клієнтами",
+    srv_eyebrow:"Що ми робимо",srv_title:"НАШІ ПОСЛУГИ",
+    srv_desc:"Пропонуємо повний спектр автомобільних послуг — від швидкої діагностики до комплексного ремонту. Кожне замовлення виконуємо сумлінно, використовуючи перевірені запчастини та сучасне обладнання.",
+    s1_title:"Комп'ютерна діагностика",s1_desc:"Використовуємо професійне діагностичне обладнання для зчитування кодів помилок з усіх систем — двигун, ABS, ESP, подушки безпеки. Точна діагностика економить ваш час та гроші.",
+    s2_title:"Автомеханіка",s2_desc:"Заміна масла та фільтрів, ремонт гальм, підвіски, рульового керування. Замінюємо ремені ГРМ, зчеплення, амортизатори. Використовуємо якісні фірмові запчастини — з гарантією.",
+    s3_title:"Шиномонтаж",s3_desc:"Монтаж та демонтаж літніх і зимових шин, балансування коліс, правка дисків, ремонт проколів. Консультуємо з підбору шин для вашого стилю водіння.",
+    s4_title:"Швидкі послуги",s4_desc:"Заміна лампочок, двірників, рідин, акумулятора або перевірка тиску — робимо швидко, без запису. Приїжджайте — займемося вашим авто одразу, того ж дня.",
+    s5_title:"Технічний огляд",s5_desc:"Перед техоглядом перевіримо автомобіль від А до Я — освітлення, гальма, вихлоп, геометрія коліс. Підготуємо авто так, щоб воно пройшло огляд без проблем.",
+    s6_title:"Електричні несправності",s6_desc:"Ремонт електропроводки, заміна датчиків, генераторів, стартерів та діагностика блоків керування ECU. Досвід і обладнання дозволяють нам знаходити навіть складні несправності.",
+    why_eyebrow:"Чому ми",why_title:"ЯКІСТЬ,<br>ЯКУ ВІДЧУВАЄШ",
+    why_desc:"Місцевий сервіс з місією — найвища якість за доступною ціною. Нам довіряють водії зі Страшина, Прущ-Гданського та околиць.",
+    w1_t:"Рейтинг 5.0 ★ у Google",w1_d:"Кожен відгук — зобов'язання для нас. Прагнемо, щоб кожен клієнт пішов задоволеним ремонтом, обслуговуванням і ціною.",
+    w2_t:"Прозоре ціноутворення",w2_d:"Перед кожним ремонтом обговорюємо обсяг робіт та вартість. Не починаємо без вашої згоди. Жодних сюрпризів наприкінці.",
+    w3_t:"Швидке виконання",w3_d:"Знаємо, що авто — інструмент для роботи та щоденного життя. Намагаємося повертати авто того ж дня або якомога швидше.",
+    w4_t:"Легкий контакт — WhatsApp",w4_d:"Є питання або хочете записатися? Напишіть у WhatsApp — найшвидший спосіб зв'язку. Відповідаємо оперативно.",
+    hours_title:"ГОДИНИ РОБОТИ",hours_weekday:"Пн – Пт: 9:00 – 20:00",
+    hours_saturday:"Субота: 9:00 – 19:00",hours_sunday:"Неділя — зачинено",hours_cta:"Зателефонувати",
+    c_eyebrow:"Де ми знаходимось",c_title:"КОНТАКТИ",
+    c_desc:"Знаходимося в Страшині, за кілька хвилин від Гданська. Вулиця Старогардська 16B.",
+    c_card_title:"КОНТАКТНІ ДАНІ",c_address_lbl:"Адреса",c_phone_lbl:"Телефон",
+    c_hours_lbl:"Години роботи",c_wa_lbl:"WhatsApp",c_wa_val:"Написати у WhatsApp",c_maps_btn:"Відкрити в Google Maps",
+    c_map_title:"Next Auto Life",c_map_addr:"Starogardzka 16B<br>83-010 Straszyn",footer_addr:"Starogardzka 16B, 83-010 Straszyn"
+  }
 };
+
 function setLang(lang) {
-const d = T[lang];
-document.querySelectorAll('[data-i18n]').forEach(el => {
-const k = el.getAttribute('data-i18n');
-if (d[k] !== undefined) el.innerHTML = d[k];
-});
-});
-document.querySelectorAll('.lang-btn').forEach(b => {
-b.classList.toggle('active', b.textContent === lang.toUpperCase());
-document.documentElement.lang = lang;
+  const d = T[lang];
+  if (!d) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (d[k] !== undefined) el.innerHTML = d[k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    const active = b.textContent.trim() === lang.toUpperCase();
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-pressed', active);
+  });
+  document.documentElement.lang = lang;
+  localStorage.setItem('lang', lang);
 }
+
+const nav = document.querySelector('nav');
+const navToggle = document.querySelector('.nav-toggle');
+
+function closeNav() {
+  nav.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+}
+
+navToggle.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', closeNav);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeNav();
+});
+
+const savedLang = localStorage.getItem('lang');
+if (savedLang && T[savedLang]) setLang(savedLang);
 </script>
 </body>
 </html>
